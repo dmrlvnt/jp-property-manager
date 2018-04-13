@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: propertyservice
+  profiles:
+    active:
+      default

@@ -1,0 +1,25 @@
+version: '2'
+services:
+  discoveryserver:
+    image: jppm/discovery-service:latest
+    ports:
+      - "8761:8761"
+  database:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=p0stgr@s
+      - POSTGRES_DB=jppm
+  propertyservice:
+    image: jppm/property-service:latest
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    environment:
+      PROFILE: "default"
+      SERVER_PORT: "8080"
+      DISCOVERYSERVER_URI:  "http://discoveryserver:8761/eureka/"
+      DATABASESERVER_PORT:  "5432"
+      DISCOVERYSERVER_PORT: "8761"
