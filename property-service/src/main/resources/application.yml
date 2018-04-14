@@ -19,6 +19,17 @@ spring:
     username: postgres
     password: p0stgr@s
     driverClassName: org.postgresql.Driver
+#  Alternative DB JPA and datasource
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: create-drop
+#  datasource:
+#    platform: org.hibernate.dialect.MySQLDialect
+#    url: jdbc:mysql://database:3306/jppm?useSSL=false
+#    username: root
+#    password: pass
+#    driverClassName: com.mysql.jdbc.Driver
 
 #Setting the logging levels for the service
 logging:

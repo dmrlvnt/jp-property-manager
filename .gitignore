@@ -39,4 +39,6 @@ hs_err_pid*
 /target/
 **/target/
 
+/docker/assembler/database
+
 .DS_Store
