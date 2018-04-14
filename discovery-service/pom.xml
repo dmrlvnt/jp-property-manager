@@ -19,7 +19,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <start-class>fr.urbanmarkets.discoveryservice.Application</start-class>
+    <start-class>fr.urbanmarkets.discoveryservice.DiscoveryServerApplication</start-class>
     <java.version>1.8</java.version>
     <docker.image.name>jppm/discovery-service</docker.image.name>
     <docker.image.tag>latest</docker.image.tag>
