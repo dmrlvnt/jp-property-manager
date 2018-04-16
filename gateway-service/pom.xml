@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://maven.apache.org/POM/4.0.0"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>fr.urbanmarkets</groupId>
+  <artifactId>gateway-service</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>gateway-service</name>
+  <description>Gateway Service</description>
+
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>1.5.12.RELEASE</version>
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+    <start-class>fr.urbanmarkets.gatewayservice.GatewayServiceApplication</start-class>
+    <docker.image.name>jppm/gateway-service</docker.image.name>
+    <docker.image.tag>latest</docker.image.tag>
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-dependencies</artifactId>
+        <version>Edgware.RELEASE</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-zuul</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-eureka</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.session</groupId>
+      <artifactId>spring-session</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-data-redis</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.16.20</version>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- The final Docker image will be created in target/dockerfile/Dockerfile -->
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>validate</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${basedir}/target/dockerfile</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/docker</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.spotify</groupId>
+        <artifactId>docker-maven-plugin</artifactId>
+        <version>1.0.0</version>
+        <configuration>
+          <imageName>${docker.image.name}:${docker.image.tag}</imageName>
+          <dockerDirectory>${basedir}/target/dockerfile</dockerDirectory>
+          <resources>
+            <resource>
+              <targetPath>/</targetPath>
+              <directory>${project.build.directory}</directory>
+              <include>${project.build.finalName}.jar</include>
+            </resource>
+          </resources>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-resources</phase>
+            <configuration>
+              <tasks>
+                <exec dir="${project.basedir}/src/main/angular/ui" executable="cmd"
+                  osfamily="windows">
+                  <arg value="/c"/>
+                  <arg value="ng"/>
+                  <arg value="build"/>
+                </exec>
+                <exec dir="${project.basedir}/src/main/angular/ui" executable="/bin/sh"
+                  osfamily="mac">
+                  <arg value="-c"/>
+                  <arg value="ng build"/>
+                </exec>
+                <exec dir="${project.basedir}/src/main/angular/ui" executable="/bin/sh"
+                  osfamily="unix">
+                  <arg value="-c"/>
+                  <arg value="ng build"/>
+                </exec>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

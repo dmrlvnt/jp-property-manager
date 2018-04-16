@@ -1,0 +1,13 @@
+<div class="card">
+  <div class="card-block">
+    <button type="button" class="close" aria-label="Close" (click)="closePropertyDetail()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="card-title">Property</h4>
+    <h6 class="card-subtitle mb-2 text-muted">Postcode: {{selectedProperty.address.postCode}}</h6>
+    <h6 class="card-subtitle mb-2 text-muted">City: {{selectedProperty.address.city}}</h6>
+    <h6 class="card-subtitle mb-2 text-muted">Surface: {{selectedProperty.surface}} sq.m.</h6>
+    <h6 class="card-subtitle mb-2 text-muted">Price: {{selectedProperty.prices[selectedProperty.prices.length - 1].amount}} €</h6>
+    <p class="card-text">A quick summary of the property</p>
+  </div>
+</div>

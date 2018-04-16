@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import fr.urbanmarkets.propertyservice.exception.PropertyNotFound;
 import fr.urbanmarkets.propertyservice.model.Address;
 import fr.urbanmarkets.propertyservice.model.Location;
 import fr.urbanmarkets.propertyservice.model.Price;
@@ -11,15 +12,18 @@ import fr.urbanmarkets.propertyservice.model.Property;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @RunWith(SpringRunner.class)
+@Transactional
 public class PropertyServiceTest {
 
   @Autowired
@@ -51,6 +55,22 @@ public class PropertyServiceTest {
     assertEquals(propertyId, retrievedProperty.getPropertyId());
   }
 
+  @Test(expected = PropertyNotFound.class)
+  public void canNotFindProperty_inDB_withValidParameters_returnValidResponse() {
+    Property retrievedProperty = propertyService.findProperty("Not existing propertyId");
+  }
+
+  @Test
+  public void findAllProperties_inDB_withValidParameters_returnValidResponse() {
+    Property property1 = propertyService.createProperty(sampleProperty());
+    Property property2 = propertyService.createProperty(sampleProperty());
+    assertNotNull(property1);
+    assertNotNull(property2);
+    List<Property> allProperties = propertyService.findAllProperties();
+    assertNotNull(allProperties);
+    assertEquals(2, allProperties.size());
+  }
+
   @Test
   public void updateProperty_inDB_withValidParameters_returnValidResponse() {
     Property property = propertyService.createProperty(sampleProperty());
@@ -68,7 +88,7 @@ public class PropertyServiceTest {
 
     assertNotNull(property);
 
-    propertyService.deleteProperty(property);
+    propertyService.deleteProperty(property.getPropertyId());
   }
 
   private Property sampleProperty() {

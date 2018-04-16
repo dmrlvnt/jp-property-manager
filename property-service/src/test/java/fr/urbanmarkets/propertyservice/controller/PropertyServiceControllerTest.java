@@ -37,17 +37,17 @@ public class PropertyServiceControllerTest {
   private final String sampleProperty = "{\"propertyId\":\"1234-abcd\",\"surface\":100," +
       "\"bedroomCount\":2,\"address\":{\"addressId\":1,\"addressLine1\":\"36 Avenue Dr Ménard\"," +
       "\"addressLine2\":null,\"postCode\":\"06000\",\"city\":\"Nice\",\"state\":null,\"country\":" +
-      "\"France\",\"property\":null,\"location\":{\"locationId\":1,\"latitude\":43.709137," +
-      "\"longitude\":7.269403,\"address\":null}},\"prices\":[{\"priceId\":1,\"date\":" +
-      "\"13.04.2018\",\"amount\":1000000,\"property\":null},{\"priceId\":2,\"date\":" +
-      "\"10.12.1984\",\"amount\":100000,\"property\":null}]}\n";
+      "\"France\",\"location\":{\"locationId\":1,\"latitude\":43.709137," +
+      "\"longitude\":7.269403}},\"prices\":[{\"priceId\":2,\"date\":" +
+      "\"13.04.2018\",\"amount\":1000000},{\"priceId\":1,\"date\":" +
+      "\"10.12.1984\",\"amount\":100000}]}\n";
   private final String expected = "{\"propertyId\":\"1234-abcd\",\"surface\":100," +
       "\"bedroomCount\":2,\"address\":{\"addressId\":1,\"addressLine1\":\"36 Avenue Dr Ménard\"," +
       "\"addressLine2\":null,\"postCode\":\"06000\",\"city\":\"Nice\",\"state\":null,\"country\":" +
-      "\"France\",\"property\":null,\"location\":{\"locationId\":1,\"latitude\":43.709137," +
-      "\"longitude\":7.269403,\"address\":null}},\"prices\":[{\"priceId\":1,\"date\":" +
-      "\"13.04.2018\",\"amount\":1000000,\"property\":null},{\"priceId\":2,\"date\":" +
-      "\"10.12.1984\",\"amount\":100000,\"property\":null}]}\n";
+      "\"France\",\"location\":{\"locationId\":1,\"latitude\":43.709137," +
+      "\"longitude\":7.269403}},\"prices\":[{\"priceId\":2,\"date\":" +
+      "\"13.04.2018\",\"amount\":1000000},{\"priceId\":1,\"date\":" +
+      "\"10.12.1984\",\"amount\":100000}]}\n";
   @Autowired
   private MockMvc mockMvc;
   @MockBean
@@ -102,10 +102,10 @@ public class PropertyServiceControllerTest {
     String sampleProperty = "{\"propertyId\":\"1234-abcd\",\"surface\":100,\"bedroomCount\":2," +
         "\"address\":{\"addressId\":1,\"addressLine1\":\"36 Avenue Dr Ménard\",\"addressLine2\":" +
         "null,\"postCode\":\"06001\",\"city\":\"Nice\",\"state\":null,\"country\":\"France\"," +
-        "\"property\":null,\"location\":{\"locationId\":1,\"latitude\":43.709137,\"longitude\"" +
-        ":7.269403,\"address\":null}},\"prices\":[{\"priceId\":1,\"date\":\"13.04.2018\"," +
-        "\"amount\":1000000,\"property\":null},{\"priceId\":2,\"date\":\"10.12.1984\",\"amount\"" +
-        ":100000,\"property\":null}]}\n";
+        "\"location\":{\"locationId\":1,\"latitude\":43.709137,\"longitude\"" +
+        ":7.269403}},\"prices\":[{\"priceId\":1,\"date\":\"13.04.2018\"," +
+        "\"amount\":1000000},{\"priceId\":2,\"date\":\"10.12.1984\",\"amount\"" +
+        ":100000}]}\n";
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders.put(
         "/v1/property/1234-abcd").accept(MediaType.APPLICATION_JSON).content(sampleProperty)
@@ -119,10 +119,10 @@ public class PropertyServiceControllerTest {
     String expected = "{\"propertyId\":\"1234-abcd\",\"surface\":100,\"bedroomCount\":2," +
         "\"address\":{\"addressId\":1,\"addressLine1\":\"36 Avenue Dr Ménard\",\"addressLine2\"" +
         ":null,\"postCode\":\"06001\",\"city\":\"Nice\",\"state\":null,\"country\":\"France\"," +
-        "\"property\":null,\"location\":{\"locationId\":1,\"latitude\":43.709137,\"longitude\"" +
-        ":7.269403,\"address\":null}},\"prices\":[{\"priceId\":1,\"date\":\"13.04.2018\"," +
-        "\"amount\":1000000,\"property\":null},{\"priceId\":2,\"date\":\"10.12.1984\",\"amount\"" +
-        ":100000,\"property\":null}]}\n";
+        "\"location\":{\"locationId\":1,\"latitude\":43.709137,\"longitude\"" +
+        ":7.269403}},\"prices\":[{\"priceId\":2,\"date\":\"13.04.2018\"," +
+        "\"amount\":1000000},{\"priceId\":1,\"date\":\"10.12.1984\",\"amount\"" +
+        ":100000}]}\n";
 
     JSONAssert.assertEquals(expected, result.getResponse()
         .getContentAsString(), false);
@@ -130,7 +130,7 @@ public class PropertyServiceControllerTest {
 
   @Test
   public void deleteProperty_withValidParameters_returnValidResponse() throws Exception {
-    Mockito.doNothing().when(propertyService).deleteProperty(Mockito.any(Property.class));
+    Mockito.doNothing().when(propertyService).deleteProperty(Mockito.anyString());
 
     RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(
         "/v1/property/1234-abcd").accept(MediaType.APPLICATION_JSON).content(sampleProperty)

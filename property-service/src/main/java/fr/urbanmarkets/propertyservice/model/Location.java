@@ -1,11 +1,14 @@
 package fr.urbanmarkets.propertyservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Location {
 
   @Id
@@ -32,7 +36,8 @@ public class Location {
   @Column(name = "longitude", nullable = false)
   private Double longitude;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "location")
+  @JsonBackReference
   private Address address;
 
 }

@@ -2,6 +2,8 @@ package fr.urbanmarkets.propertyservice.controller;
 
 import fr.urbanmarkets.propertyservice.model.Property;
 import fr.urbanmarkets.propertyservice.service.PropertyService;
+import java.util.List;
+import javafx.beans.property.ListProperty;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,27 +28,31 @@ public class PropertyServiceController {
     return propertyService.findProperty(propertyId);
   }
 
+  @RequestMapping(value = "/all", method = RequestMethod.GET)
+  public List<Property> findAllProperties() {
+    log.info("All properties will be retrieved");
+    return propertyService.findAllProperties();
+  }
+
   @RequestMapping(value = "/", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   public Property createProperty(@RequestBody Property property) {
-    log.info("A new property will be created: {}", property.toString());
+    log.info("A new property will be created");
     return propertyService.createProperty(property);
   }
 
   @RequestMapping(value = "/{propertyId}", method = RequestMethod.PUT)
   public Property updateProperty(@PathVariable("propertyId") String propertyId,
       @RequestBody Property property) {
-    log.info("The property with id: {} will be updated with these values: {}", propertyId,
-        property.toString());
+    log.info("The property with id: {} will be updated", propertyId);
     return propertyService.updateProperty(property);
   }
 
   @RequestMapping(value = "/{propertyId}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deleteProperty(@PathVariable("propertyId") String propertyId,
-      @RequestBody Property property) {
+  public void deleteProperty(@PathVariable("propertyId") String propertyId) {
     log.info("The property with id: {} will be deleted.", propertyId);
-    propertyService.deleteProperty(property);
+    propertyService.deleteProperty(propertyId);
   }
 
 }

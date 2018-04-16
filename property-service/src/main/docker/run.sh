@@ -4,7 +4,7 @@ echo "********************************************************"
 echo "Waiting for the discovery server to start on port $DISCOVERYSERVER_PORT"
 echo "********************************************************"
 while ! `nc -z discoveryserver $DISCOVERYSERVER_PORT`; do sleep 3; done
-echo "******* Discovery Server has started"
+echo "******** Discovery Server has started"
 
 echo "********************************************************"
 echo "Waiting for the database server to start on port $DATABASESERVER_PORT"

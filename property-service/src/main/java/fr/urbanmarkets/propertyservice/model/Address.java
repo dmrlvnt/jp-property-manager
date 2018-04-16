@@ -1,5 +1,8 @@
 package fr.urbanmarkets.propertyservice.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -21,6 +25,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Address {
 
   @Id
@@ -52,10 +57,13 @@ public class Address {
   @Size(max = 100)
   private String country;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "address")
+  @JsonBackReference
   private Property property;
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "address", orphanRemoval = true)
+  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
+  @JoinColumn(name = "locationId")
+  @JsonManagedReference
   private Location location;
 
 }

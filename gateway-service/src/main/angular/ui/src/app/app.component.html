@@ -1,0 +1,43 @@
+<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top bg-inverse">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+          data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false"
+          aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="index.html">JP Property Manager</a>
+  <div class="collapse navbar-collapse" id="navbarCollapse">
+    <ul class="navbar-nav mr-auto">
+    </ul>
+    <button *ngIf="principal.authenticated" type="button" style="cursor: pointer;" class="btn btn-link" (click)="onLogout()">
+      Logout
+    </button>
+  </div>
+</nav>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>Property Manager App</h1>
+    <p *ngIf="!principal.authenticated" class="lead"></p>
+    <p *ngIf="principal.isAuthenticated()" class="lead">The property manager allows a user to add/remove/modify a property
+      and its attributes. </p>
+  </div>
+</div>
+
+<section class="properties">
+  <div class="container">
+    <div class="row">
+      <div class="col-md">
+        <div class="row">
+          <div class="col-md-12">
+            <app-property-list [principal]="principal"
+                               (onPropertySelected)="selectProperty($event)"></app-property-list>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="selectedProperty != null" class="col-md-3">
+        <app-property-detail [selectedProperty]="selectedProperty" [principal]="principal"
+                             (closeProperty)="closePropertyDetail()"></app-property-detail>
+      </div>
+    </div>
+  </div>
+</section>
