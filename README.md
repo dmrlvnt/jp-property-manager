@@ -24,10 +24,11 @@ parent directory in the source code and run the following docker-compose command
 
 At this point all of the services needed for the JP (Jean Paul) Property Manager will be running.
 
-## Logon the JP (Jean Paul) Property Manager
+## Login to the JP (Jean Paul) Property Manager
 After docker compose has prepared the services, JP (Jean Paul) Property Manager will be serving at http://localhost:8090 by default.
 
 Login with these credentials to use the application:
 
 **username: user**
+
 **password: password**
