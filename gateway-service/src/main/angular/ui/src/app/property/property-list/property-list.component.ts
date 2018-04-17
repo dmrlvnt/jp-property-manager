@@ -26,6 +26,7 @@ export class PropertyListComponent implements OnInit {
   ];
   address: Address = new Address(0,"","","","","","", new Location(0,0,0));
   newProperty: Property = new Property("", 0, 0, this.address, this.prices);
+  newPrice: Price = new Price(0, null, 0);
   propertiesToEdit: number[] = [];
   isAddNewProperty: boolean = false;
   selectedProperty: Property = null;
@@ -80,12 +81,18 @@ export class PropertyListComponent implements OnInit {
         propertyArr.surface = property.surface;
         propertyArr.address = property.address;
         propertyArr.prices = property.prices;
+        let propertyArrN: Property = this.newProperties.find(b => b.propertyId === property.propertyId);
+        propertyArrN.bedroomCount = property.bedroomCount;
+        propertyArrN.surface = property.surface;
+        propertyArrN.address = property.address;
+        propertyArrN.prices = property.prices;
+        this.selectProperty(propertyArr);
         this.propertiesToEdit.splice(this.propertiesToEdit.indexOf(propertyIndex), 1); //remove the index of the property to edit
+        console.log(this.newProperties);
+        console.log(this.properties);
       }, (error) => {
         console.log(error);
       });
-
-
   }
 
   delete(propertyIndex: number) {
@@ -107,6 +114,7 @@ export class PropertyListComponent implements OnInit {
   activateAddNewProperty() {
     this.isAddNewProperty = true;
     this.newProperty = new Property("", 0, 0, this.address, this.prices);
+    this.propertiesToEdit.fill(-1);
   }
 
   addNewProperty(newProperty: Property, element: any) {
@@ -121,22 +129,33 @@ export class PropertyListComponent implements OnInit {
         this.properties.push(property);
         this.newProperties.push(property);
         this.selectProperty(property);
+        this.cancelAddProperty();
         this.newProperty = new Property("", 0, 0, this.address, this.prices);
         element.focus();
-        this.cancelAddProperty();
       }, (error) => {
         console.log(error);
       });
+  }
+
+  addPriceToProperty(price: Price, propertyIndex: number, property: Property) {
+    console.log(property);
+    property.prices.push(price);
+    console.log(property);
+    this.newPrice = new Price(0, null, 0);
+    this.saveProperty(propertyIndex, property);
   }
 
   cancelAddProperty() {
     this.isAddNewProperty = false;
   }
 
-
   selectProperty(property: Property) {
     this.selectedProperty = property;
     this.onPropertySelected.emit(property);
+  }
+
+  customTrackBy(index: number, obj: any): any {
+    return index;
   }
 
 }

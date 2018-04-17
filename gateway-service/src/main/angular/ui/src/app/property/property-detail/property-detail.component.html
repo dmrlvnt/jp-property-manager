@@ -3,11 +3,11 @@
     <button type="button" class="close" aria-label="Close" (click)="closePropertyDetail()">
       <span aria-hidden="true">&times;</span>
     </button>
-    <h4 class="card-title">Property</h4>
-    <h6 class="card-subtitle mb-2 text-muted">Postcode: {{selectedProperty.address.postCode}}</h6>
-    <h6 class="card-subtitle mb-2 text-muted">City: {{selectedProperty.address.city}}</h6>
-    <h6 class="card-subtitle mb-2 text-muted">Surface: {{selectedProperty.surface}} sq.m.</h6>
-    <h6 class="card-subtitle mb-2 text-muted">Price: {{selectedProperty.prices[selectedProperty.prices.length - 1].amount}} €</h6>
+    <img src="assets/ico/house.png" class="rounded float-left" alt="Property" height="45" width="45">
+    <h5 class="card-subtitle mb-2 text-muted">Postcode: {{selectedProperty.address.postCode}}</h5>
+    <h5 class="card-subtitle mb-2 text-muted">City: {{selectedProperty.address.city}}</h5>
+    <h5 class="card-subtitle mb-2 text-muted">Surface: {{selectedProperty.surface}} sq.m.</h5>
+    <h5 class="card-subtitle mb-2 text-muted">Price: {{selectedProperty.prices[selectedProperty.prices.length - 1].amount}} €</h5>
     <p class="card-text">A quick summary of the property</p>
   </div>
 </div>

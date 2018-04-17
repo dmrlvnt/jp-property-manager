@@ -1,4 +1,4 @@
-<div class="col-md-12" *ngFor="let property of properties; let i = index;" (click)="selectProperty(property)">
+<div class="col-md-14" *ngFor="let property of properties; let i = index;" (click)="selectProperty(property)">
   <div class="card">
     <div class="card-block">
       <div *ngIf="propertiesToEdit.indexOf(i) === -1 ; then propertyView else propertyEdit"></div>
@@ -10,62 +10,91 @@
         <h6 class="card-subtitle mb-2 text-muted">Price: {{property.prices[property.prices.length - 1].amount}} €</h6>
       </ng-template>
       <ng-template #propertyEdit>
-        <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-secondary custom-close" (click)="cancelEditProperty(i)">Cancel</button>
         <form appClickStopPropagation (ngSubmit)="saveProperty(i, newProperties[i])" class="mt-2 mt-md-0" #f1="ngForm">
-          <div class="form-group">
-            <label for="addressLine1EditProperty">Address Line 1:</label>
-            <input id="addressLine1EditProperty" name="addressLine1" [(ngModel)]="newProperties[i].address.addressLine1" required class="form-control mr-sm-2" type="text">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+            <label for="addressLine1EditProperty">Address</label>
+            <input id="addressLine1EditProperty" name="addressLine1" [(ngModel)]="newProperties[i].address.addressLine1" required class="form-control" type="text">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="addressLine2EditProperty">Address Line 2:</label>
-            <input id="addressLine2EditProperty" name="addressLine2" [(ngModel)]="newProperties[i].address.addressLine2" required class="form-control mr-sm-2" type="text">
+          <div class="form-row">
+            <div class="form-group col-md-12">
+            <label for="addressLine2EditProperty">Address 2</label>
+            <input id="addressLine2EditProperty" name="addressLine2" [(ngModel)]="newProperties[i].address.addressLine2" required class="form-control" type="text">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="postCodeEditProperty">Postcode:</label>
-            <input id="postCodeEditProperty" name="postcode" [(ngModel)]="newProperties[i].address.postCode" required class="form-control mr-sm-2" type="text">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="postCodeEditProperty">Postcode</label>
+              <input id="postCodeEditProperty" name="postcode" [(ngModel)]="newProperties[i].address.postCode" required class="form-control" type="number">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="cityEditProperty">City</label>
+              <input id="cityEditProperty" name="city" [(ngModel)]="newProperties[i].address.city" required class="form-control" type="text">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="cityEditProperty">City:</label>
-            <input id="cityEditProperty" name="city" [(ngModel)]="newProperties[i].address.city" required class="form-control mr-sm-2" type="text">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="stateEditProperty">State</label>
+              <input id="stateEditProperty" name="state" [(ngModel)]="newProperties[i].address.state" required class="form-control" type="text">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="countryEditProperty">Country</label>
+              <input id="countryEditProperty" name="country" [(ngModel)]="newProperties[i].address.country" required class="form-control" type="text">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="stateEditProperty">State:</label>
-            <input id="stateEditProperty" name="state" [(ngModel)]="newProperties[i].address.state" required class="form-control mr-sm-2" type="text">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="latitudeEditProperty">Latitude</label>
+              <input id="latitudeEditProperty" name="latitude" [(ngModel)]="newProperties[i].address.location.latitude" required class="form-control" type="number">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="longitudeEditProperty">Longitude</label>
+              <input id="longitudeEditProperty" name="longitude" [(ngModel)]="newProperties[i].address.location.longitude" required class="form-control" type="number">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="countryEditProperty">Country:</label>
-            <input id="countryEditProperty" name="country" [(ngModel)]="newProperties[i].address.country" required class="form-control mr-sm-2" type="text">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="surfaceEditProperty">Surface</label>
+              <input id="surfaceEditProperty" name="surface" [(ngModel)]="newProperties[i].surface" required class="form-control" type="number">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="bedroomCountEditProperty">Bedroom count</label>
+              <input id="bedroomCountEditProperty" name="bedroomCount" [(ngModel)]="newProperties[i].bedroomCount" required class="form-control" type="number">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="latitudeEditProperty">Latitude:</label>
-            <input id="latitudeEditProperty" name="latitude" [(ngModel)]="newProperties[i].address.location.latitude" required class="form-control mr-sm-2" type="text">
+          <div class="form-row" *ngFor="let price of newProperties[i].prices; trackBy:customTrackBy">
+            <div class="form-group col-md-6">
+              <label for="{{'priceEditProperty' + price.priceId}}">Price</label>
+              <input id="{{'priceEditProperty' + price.priceId}}" name="{{'priceEditProperty' + price.priceId}}" [(ngModel)]="price.amount" required class="form-control" type="number">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="{{'priceDateEditProperty' + price.priceId}}">Date</label>
+              <input id="{{'priceDateEditProperty' + price.priceId}}" name="{{'priceDateEditProperty' + price.priceId}}" type="text" date='dd.MM.yyyy' [(ngModel)]="price.date" required class="form-control" placeholder="04.07.2018">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="longitudeEditProperty">Longitude:</label>
-            <input id="longitudeEditProperty" name="longitude" [(ngModel)]="newProperties[i].address.location.longitude" required class="form-control mr-sm-2" type="text">
+          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f1.valid">Save</button>
+          <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-secondary custom-close" (click)="cancelEditProperty(i)">Cancel</button>
+        </form>
+        <h4 class="card-title center-block">Add New Price</h4>
+        <form appClickStopPropagation (ngSubmit)="addPriceToProperty(newPrice, i, newProperties[i])" class="mt-2 mt-md-0" #f3="ngForm">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="priceAddProperty">Price</label>
+              <input id="priceAddProperty" name="amount" [(ngModel)]="newPrice.amount" required class="form-control" type="number">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="priceDateAddProperty">Date</label>
+              <input id="priceDateAddProperty" name="priceDate" type="text" date='dd.MM.yyyy' [(ngModel)]="newPrice.date" required class="form-control" placeholder="04.07.2018">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="surfaceEditProperty">Surface:</label>
-            <input id="surfaceEditProperty" name="surface" [(ngModel)]="newProperties[i].surface" required class="form-control mr-sm-2" type="text">
-          </div>
-          <div class="form-group">
-            <label for="bedroomCountEditProperty">Bedroom Count:</label>
-            <input id="bedroomCountEditProperty" name="bedroomCount" [(ngModel)]="newProperties[i].bedroomCount" required class="form-control mr-sm-2" type="text">
-          </div>
-          <div class="form-group" *ngFor="let price of newProperties[i].prices; let i = index;">
-            <label for="priceEditProperty">Price:</label>
-            <input id="priceEditProperty" name="amount" [(ngModel)]="price.amount" required class="form-control mr-sm-2" type="number">
-            <label for="priceDateEditProperty">Date:</label>
-            <input id="priceDateEditProperty" name="priceDate" type="text" date='dd.MM.yyyy'  [(ngModel)]="price.date" required class="form-control mr-sm-2">
-          </div>
-          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="!f1.valid">Save</button>
+          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f3.valid">Add</button>
         </form>
       </ng-template>
-
     </div>
   </div>
 </div>
-<div *ngIf="principal.isAuthenticated()" class="col-md-12">
+<div *ngIf="principal.isAuthenticated()" class="col-md-14">
   <div class="card">
     <div class="card-block">
       <div *ngIf="!isAddNewProperty; then propertyPlaceHolder else propertyAdd"></div>
@@ -73,55 +102,71 @@
         <h4 (click)="activateAddNewProperty()" style="cursor: pointer;" class="card-title center-block">Add New Property</h4>
       </ng-template>
       <ng-template #propertyAdd>
-        <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-secondary custom-close" (click)="cancelAddProperty()">Cancel</button>
         <form appClickStopPropagation (ngSubmit)="addNewProperty(newProperty, addressLine1NewProperty)" class="mt-2 mt-md-0" #f2="ngForm">
-          <div class="form-group">
-            <label for="addressLine1NewProperty">Address Line 1:</label>
-            <input id="addressLine1NewProperty" name="addressLine1" [(ngModel)]="newProperty.address.addressLine1" required class="form-control mr-sm-2" type="text" #addressLine1NewProperty>
+          <div class="form-row col-md-12">
+            <div class="form-group col-md-12">
+            <label for="addressLine1NewProperty">Address</label>
+            <input id="addressLine1NewProperty" name="addressLine1" [(ngModel)]="newProperty.address.addressLine1" required class="form-control mr-sm-2" type="text" placeholder="1234 Main St" #addressLine1NewProperty>
+             </div>
           </div>
-          <div class="form-group">
-            <label for="addressLine2NewProperty">Address Line 2:</label>
-            <input id="addressLine2NewProperty" name="addressLine2" [(ngModel)]="newProperty.address.addressLine2" required class="form-control mr-sm-2" type="text">
+          <div class="form-row col-md-12">
+            <div class="form-group col-md-12">
+            <label for="addressLine2NewProperty">Address 2</label>
+            <input id="addressLine2NewProperty" name="addressLine2" [(ngModel)]="newProperty.address.addressLine2" required class="form-control mr-sm-2" type="text" placeholder="Apartment, studio, or floor">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="postCodeNewProperty">Postcode:</label>
-            <input id="postCodeNewProperty" name="postCode" [(ngModel)]="newProperty.address.postCode" required class="form-control mr-sm-2" type="text">
-          </div>
-          <div class="form-group">
-            <label for="cityNewProperty">City:</label>
+          <div class="form-row col-md-12">
+            <div class="form-group col-md-6">
+            <label for="postCodeNewProperty">Postcode</label>
+            <input id="postCodeNewProperty" name="postCode" [(ngModel)]="newProperty.address.postCode" required class="form-control mr-sm-2" type="number">
+            </div>
+            <div class="form-group col-md-6">
+            <label for="cityNewProperty">City</label>
             <input id="cityNewProperty" name="city" [(ngModel)]="newProperty.address.city" required class="form-control mr-sm-2" type="text">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="stateNewProperty">State:</label>
+          <div class="form-row col-md-12">
+            <div class="form-group col-md-6">
+            <label for="stateNewProperty">State</label>
             <input id="stateNewProperty" name="state" [(ngModel)]="newProperty.address.state" required class="form-control mr-sm-2" type="text">
-          </div>
-          <div class="form-group">
-            <label for="countryNewProperty">Country:</label>
+            </div>
+            <div class="form-group col-md-6">
+            <label for="countryNewProperty">Country</label>
             <input id="countryNewProperty" name="country" [(ngModel)]="newProperty.address.country" required class="form-control mr-sm-2" type="text">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="latitudeNewProperty">Latitude:</label>
-            <input id="latitudeNewProperty" name="latitude" [(ngModel)]="newProperty.address.location.latitude" required class="form-control mr-sm-2" type="text">
+          <div class="form-row col-md-12">
+            <div class="form-group col-md-6">
+            <label for="latitudeNewProperty">Latitude</label>
+            <input id="latitudeNewProperty" name="latitude" [(ngModel)]="newProperty.address.location.latitude" required class="form-control mr-sm-2" type="number">
+            </div>
+            <div class="form-group col-md-6">
+            <label for="longitudeNewProperty">Longitude</label>
+            <input id="longitudeNewProperty" name="longitude" [(ngModel)]="newProperty.address.location.longitude" required class="form-control mr-sm-2" type="number">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="longitudeNewProperty">Longitude:</label>
-            <input id="longitudeNewProperty" name="longitude" [(ngModel)]="newProperty.address.location.longitude" required class="form-control mr-sm-2" type="text">
+          <div class="form-row col-md-12">
+            <div class="form-group col-md-6">
+            <label for="surfaceNewProperty">Surface</label>
+            <input id="surfaceNewProperty" name="surface" [(ngModel)]="newProperty.surface" required class="form-control mr-sm-2" type="number">
+            </div>
+            <div class="form-group col-md-6">
+            <label for="bedroomCountNewProperty">Bedroom count</label>
+            <input id="bedroomCountNewProperty" name="bedroomCount" [(ngModel)]="newProperty.bedroomCount" required class="form-control mr-sm-2" type="number">
+            </div>
           </div>
-          <div class="form-group">
-            <label for="surfaceNewProperty">Surface:</label>
-            <input id="surfaceNewProperty" name="surface" [(ngModel)]="newProperty.surface" required class="form-control mr-sm-2" type="text">
-          </div>
-          <div class="form-group">
-            <label for="bedroomCountNewProperty">Bedroom Count:</label>
-            <input id="bedroomCountNewProperty" name="bedroomCount" [(ngModel)]="newProperty.bedroomCount" required class="form-control mr-sm-2" type="text">
-          </div>
-          <div class="form-group">
-            <label for="priceNewProperty">Price:</label>
+          <div class="form-row col-md-12">
+            <div class="form-group col-md-6">
+            <label for="priceNewProperty">Price</label>
             <input id="priceNewProperty" name="amount" [(ngModel)]="newProperty.prices[0].amount" required class="form-control mr-sm-2" type="number">
-            <label for="priceDateNewProperty">Date:</label>
+            </div>
+            <div class="form-group col-md-6">
+            <label for="priceDateNewProperty">Date</label>
             <input id="priceDateNewProperty" name="priceDate" type="text" date='dd.MM.yyyy'  [(ngModel)]="newProperty.prices[0].date" required class="form-control mr-sm-2">
+            </div>
           </div>
-          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0" type="submit" [disabled]="!f2.valid">Save</button>
+          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f2.valid">Save</button>
+          <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-secondary custom-close" (click)="cancelAddProperty()">Cancel</button>
         </form>
       </ng-template>
 

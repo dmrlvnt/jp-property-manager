@@ -29,6 +29,6 @@ After docker compose has prepared the services, JP (Jean Paul) Property Manager 
 
 Login with these credentials to use the application:
 
-**username: user**
+username: **user**
 
-**password: password**
+password: **password**
