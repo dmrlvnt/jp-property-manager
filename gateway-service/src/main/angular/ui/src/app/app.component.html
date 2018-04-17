@@ -4,18 +4,19 @@
           aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <a class="navbar-brand" href="index.html">JP Property Manager</a>
+  <a class="navbar-brand" href="index.html"><h3><strong>JP Property Manager</strong></h3></a>
   <div class="collapse navbar-collapse" id="navbarCollapse">
     <ul class="navbar-nav mr-auto">
     </ul>
     <button *ngIf="principal.authenticated" type="button" style="cursor: pointer;" class="btn btn-link" (click)="onLogout()">
-      Logout
+      <h3><strong>Logout</strong></h3>
     </button>
   </div>
 </nav>
 
 <div class="jumbotron">
   <div class="container">
+    <br>
     <h1>Property Manager App</h1>
     <p *ngIf="!principal.authenticated" class="lead"></p>
     <p *ngIf="principal.isAuthenticated()" class="lead">The property manager allows a user to add/remove/modify a property

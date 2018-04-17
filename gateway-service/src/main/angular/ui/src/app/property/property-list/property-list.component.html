@@ -3,11 +3,11 @@
     <div class="card-block">
       <div *ngIf="propertiesToEdit.indexOf(i) === -1 ; then propertyView else propertyEdit"></div>
       <ng-template #propertyView>
-        <button appClickStopPropagation *ngIf="principal.isAuthenticated()" type="button" style="cursor: pointer;" class="btn btn-danger custom-close" (click)="delete(i)">Delete</button>
-        <button appClickStopPropagation *ngIf="principal.isAuthenticated()" type="button" style="cursor: pointer;" class="btn btn-warning custom-close" (click)="editProperty(i)">Edit</button>
-        <h4 class="card-title">Property</h4>
-        <h6 class="card-subtitle mb-2 text-muted">Postcode: {{property.address.postCode}}</h6>
-        <h6 class="card-subtitle mb-2 text-muted">Price: {{property.prices[property.prices.length - 1].amount}} €</h6>
+        <button appClickStopPropagation *ngIf="principal.isAuthenticated()" type="button" style="cursor: pointer;" class="btn btn-lg btn-danger custom-close" (click)="delete(i)">Delete</button><div class="divider"></div>
+        <button appClickStopPropagation *ngIf="principal.isAuthenticated()" type="button" style="cursor: pointer;" class="btn btn-lg btn-warning custom-close" (click)="editProperty(i)">Edit</button>
+        <img src="assets/ico/property.jpg" class="rounded float-left" alt={{property.address.addressLine1}}>
+        <h4 class="card-subtitle mb-2 text-md-center">Postcode: {{property.address.postCode}}</h4>
+        <h4 class="card-subtitle mb-2 text-md-center">Price: {{property.prices[property.prices.length - 1].amount}} €</h4>
       </ng-template>
       <ng-template #propertyEdit>
         <form appClickStopPropagation (ngSubmit)="saveProperty(i, newProperties[i])" class="mt-2 mt-md-0" #f1="ngForm">
@@ -73,10 +73,10 @@
               <input id="{{'priceDateEditProperty' + price.priceId}}" name="{{'priceDateEditProperty' + price.priceId}}" type="text" date='dd.MM.yyyy' [(ngModel)]="price.date" required class="form-control" placeholder="04.07.2018">
             </div>
           </div>
-          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f1.valid">Save</button>
-          <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-secondary custom-close" (click)="cancelEditProperty(i)">Cancel</button>
+          <button style="cursor: pointer;" class="btn btn-lg btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f1.valid">Save</button><div class="divider"></div>
+          <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-lg btn-secondary custom-close" (click)="cancelEditProperty(i)">Cancel</button>
         </form>
-        <h4 class="card-title center-block">Add New Price</h4>
+        <br>
         <form appClickStopPropagation (ngSubmit)="addPriceToProperty(newPrice, i, newProperties[i])" class="mt-2 mt-md-0" #f3="ngForm">
           <div class="form-row">
             <div class="form-group col-md-6">
@@ -88,7 +88,7 @@
               <input id="priceDateAddProperty" name="priceDate" type="text" date='dd.MM.yyyy' [(ngModel)]="newPrice.date" required class="form-control" placeholder="04.07.2018">
             </div>
           </div>
-          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f3.valid">Add</button>
+          <button style="cursor: pointer;" class="btn btn-lg btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f3.valid">Add New Price</button>
         </form>
       </ng-template>
     </div>
@@ -162,11 +162,11 @@
             </div>
             <div class="form-group col-md-6">
             <label for="priceDateNewProperty">Date</label>
-            <input id="priceDateNewProperty" name="priceDate" type="text" date='dd.MM.yyyy'  [(ngModel)]="newProperty.prices[0].date" required class="form-control mr-sm-2">
+            <input id="priceDateNewProperty" name="priceDate" type="text" date='dd.MM.yyyy'  [(ngModel)]="newProperty.prices[0].date" required class="form-control mr-sm-2" placeholder="04.07.2018">
             </div>
           </div>
-          <button style="cursor: pointer;" class="btn btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f2.valid">Save</button>
-          <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-secondary custom-close" (click)="cancelAddProperty()">Cancel</button>
+          <button style="cursor: pointer;" class="btn btn-lg btn-outline-success my-2 my-sm-0 custom-close" type="submit" [disabled]="!f2.valid">Save</button><div class="divider"></div>
+          <button appClickStopPropagation type="button" style="cursor: pointer;" class="btn btn-lg btn-secondary custom-close" (click)="cancelAddProperty()">Cancel</button>
         </form>
       </ng-template>
 
